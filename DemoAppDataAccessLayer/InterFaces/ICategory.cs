@@ -10,5 +10,8 @@ namespace DemoAppDataAccessLayer.InterFaces
     public interface ICategory
     {
          Task<List<Category>> GetAllCategories();
+            Task<bool> UpdateCategory(Category category);
+            Task<bool> AddCategory(Category category);
+            Task<bool> DeleteCategory(int categoryId);
     }
 }

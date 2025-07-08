@@ -1,45 +1,41 @@
-﻿using System;
+﻿using DemoAppDataAccessLayer.InterFaces;
+using DemoAppDataAccessLayer.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DemoAppDataAccessLayer.InterFaces;
-using DemoAppDataAccessLayer.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Office.Interop.Outlook;
 
 namespace DemoAppDataAccessLayer.QuickKartRepository
 {
-    public class CategoryRepo : ICategory
+    public class ProductRepo : IProduct
     {
+
         private readonly QuickKartDbContext _context;
-        public CategoryRepo(QuickKartDbContext context)
+        public ProductRepo(QuickKartDbContext context)
         {
             _context = context;
         }
-        // Example method to get all categories
-
-        public async Task<List<Models.Category>> GetAllCategories()
+        // Example method to get all products
+        public async Task<List<Models.Product>> GetAllProducts()
         {
-            var categories = new List<Models.Category>();
+            var products = new List<Models.Product>();
             try
             {
-
-                categories = await _context.Categories.ToListAsync();
+                products = await _context.Products.ToListAsync();
             }
             catch (System.Exception)
             {
-
-                categories = null;
+                products = null;
             }
-            return categories;
+            return products;
         }
-
-        public async Task<bool> UpdateCategory(Models.Category category)
+        public async Task<bool> UpdateProduct(Models.Product product)
         {
             try
             {
-                _context.Categories.Update(category);
+                _context.Products.Update(product);
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -48,11 +44,11 @@ namespace DemoAppDataAccessLayer.QuickKartRepository
                 return false;
             }
         }
-        public async Task<bool> AddCategory(Models.Category category)
+        public async Task<bool> AddProduct(Models.Product product)
         {
             try
             {
-                await _context.Categories.AddAsync(category);
+                await _context.Products.AddAsync(product);
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -61,16 +57,16 @@ namespace DemoAppDataAccessLayer.QuickKartRepository
                 return false;
             }
         }
-        public async Task<bool> DeleteCategory(int categoryId)
+        public async Task<bool> DeleteProduct(int productId)
         {
             try
             {
-                var category = await _context.Categories.FindAsync(categoryId);
-                if (category == null)
+                var product = await _context.Products.FindAsync(productId);
+                if (product == null)
                 {
-                    return false; // Category not found
+                    return false; // Product not found
                 }
-                _context.Categories.Remove(category);
+                _context.Products.Remove(product);
                 await _context.SaveChangesAsync();
                 return true;
             }
