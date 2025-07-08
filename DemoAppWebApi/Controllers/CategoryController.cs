@@ -1,6 +1,9 @@
-﻿using DemoAppDataAccessLayer.Models;
+﻿using DemoAppDataAccessLayer.InterFaces;
+using DemoAppDataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Office.Interop.Outlook;
+using Category = DemoAppDataAccessLayer.Models.Category;
 
 namespace DemoAppWebApi.Controllers
 {
@@ -8,27 +11,27 @@ namespace DemoAppWebApi.Controllers
     [Route("api/[controller]")]
     public class CategoryController : ControllerBase
     {
-        private readonly QuickKartDbContext _context;
+        private readonly ICategory _categoryRepo;
 
-        public CategoryController(QuickKartDbContext context)
+        public CategoryController(ICategory category)
         {
-            _context = context;
+            _categoryRepo = category;
         }
 
         // Example method to get all categories
         [HttpGet("GetAllCategories")]
-        public async Task<List<Category>> GetAllCategories()
+        public async Task<IActionResult> GetAllCategories()
         {
             var categories = new List<Category>();
             try
             {
-                categories = await _context.Categories.ToListAsync();
+                categories = await _categoryRepo.GetAllCategories();
             }
-            catch (Exception)
+            catch (System.Exception)
             {
-                categories = null;
+                return StatusCode(500, "An error occurred while retrieving categories."); 
             }
-            return categories;
+            return Ok(categories);
         }
     }
 }

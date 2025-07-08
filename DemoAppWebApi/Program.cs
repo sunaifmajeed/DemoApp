@@ -1,3 +1,4 @@
+using DemoAppDataAccessLayer.InterFaces;
 using DemoAppDataAccessLayer.Models;
 using DemoAppDataAccessLayer.QuickKartRepository;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<QuickKartDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddControllers();
-builder.Services.AddSingleton<QuickKartRepo>();
+builder.Services.AddScoped<ICategory, CategoryRepo>();
 //builder.Services.AddScoped<IProductService, ProductService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

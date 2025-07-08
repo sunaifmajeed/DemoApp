@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DemoAppDataAccessLayer.InterFaces;
 using DemoAppDataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Office.Interop.Outlook;
 
 namespace DemoAppDataAccessLayer.QuickKartRepository
 {
-    public class QuickKartRepo
+    public class CategoryRepo:ICategory
     {
         private readonly QuickKartDbContext _context;
-        public QuickKartRepo(QuickKartDbContext context)
+        public CategoryRepo(QuickKartDbContext context)
         {
             _context = context;
         }
